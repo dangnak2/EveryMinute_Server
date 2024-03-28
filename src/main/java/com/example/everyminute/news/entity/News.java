@@ -59,4 +59,8 @@ public class News extends BaseEntity {
                 .user(user)
                 .build();
     }
+
+    public void remove() {
+        this.setIsEnable(false);
+    }
 }

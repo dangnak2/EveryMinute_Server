@@ -40,7 +40,8 @@ public enum BaseResponseCode {
     // news
     INVALID_NEWS_TITLE("N0001", HttpStatus.BAD_REQUEST, "이미 존재하는 소식 제목입니다."),
     NOT_EMPTY_NEWS_TITLE("N0002", HttpStatus.BAD_REQUEST, "소식 제목을 입력해주세요."),
-    NOT_EMPTY_NEWS_CONTENT("N0003", HttpStatus.BAD_REQUEST, "소식 내용을 입력해주세요.");
+    NOT_EMPTY_NEWS_CONTENT("N0003", HttpStatus.BAD_REQUEST, "소식 내용을 입력해주세요."),
+    NEWS_NOT_FOUND("N0004", HttpStatus.NOT_FOUND, "존재하지 않는 소식입니다.");
 
     public final String code;
     public final HttpStatus status;

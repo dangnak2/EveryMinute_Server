@@ -27,4 +27,15 @@ public class NewsController {
         newsService.postNewsByAdmin(user, schoolId, postNewsReq);
         return ResponseCustom.OK();
     }
+
+    // 소식 삭제
+    @DeleteMapping("/{newsId}")
+    public ResponseCustom removeNewsByAdmin(
+            @Account User user,
+            @PathVariable Long newsId)
+    {
+        newsService.removeNewsByAdmin(user, newsId);
+        return ResponseCustom.OK();
+    }
+
 }

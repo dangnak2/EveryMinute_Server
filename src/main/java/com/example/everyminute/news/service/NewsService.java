@@ -34,6 +34,16 @@ public class NewsService {
         school.addNews(newsRepository.save(News.of(postNewsReq, school, user)));
     }
 
+    @Transactional
+    public void removeNewsByAdmin(User user, Long newsId) {
+        checkAdminRole(user);
+        News news = newsRepository.findByNewsIdAndIsEnable(newsId, true).orElseThrow(() -> new BaseException(BaseResponseCode.NEWS_NOT_FOUND));
+
+        // 양방향 연관관계 해제 후 News 삭제
+        news.getSchool().removeNews(news);
+        news.remove();
+    }
+
     private static void checkAdminRole(User user) {
         if (!user.checkRole(Role.ADMIN)) throw new BaseException(BaseResponseCode.NO_AUTHENTICATION);
     }

@@ -50,4 +50,8 @@ public class School extends BaseEntity {
     public void addNews(News news) {
         this.newsList.add(news);
     }
+
+    public void removeNews(News news) {
+        this.newsList.remove(news);
+    }
 }
