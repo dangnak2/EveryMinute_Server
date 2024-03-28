@@ -2,13 +2,14 @@ package com.example.everyminute.user.entity;
 
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.user.dto.request.JoinReq;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
