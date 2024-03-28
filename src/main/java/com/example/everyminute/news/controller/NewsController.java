@@ -3,6 +3,7 @@ package com.example.everyminute.news.controller;
 import com.example.everyminute.global.resolver.Account;
 import com.example.everyminute.global.response.ResponseCustom;
 import com.example.everyminute.news.dto.request.PostNewsReq;
+import com.example.everyminute.news.dto.request.UpdateNewsReq;
 import com.example.everyminute.news.service.NewsService;
 import com.example.everyminute.user.entity.User;
 import io.swagger.annotations.Api;
@@ -38,4 +39,15 @@ public class NewsController {
         return ResponseCustom.OK();
     }
 
+    // 소식 수정
+    @PatchMapping("/{newsId}")
+    public ResponseCustom updateNewsByAdmin(
+           @Account User user,
+           @PathVariable Long newsId,
+           @RequestBody UpdateNewsReq updateNewsReq
+    )
+    {
+        newsService.updateNewsByAdmin(user, newsId, updateNewsReq);
+        return ResponseCustom.OK();
+    }
 }

@@ -3,6 +3,7 @@ package com.example.everyminute.news.service;
 import com.example.everyminute.global.exception.BaseException;
 import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.news.dto.request.PostNewsReq;
+import com.example.everyminute.news.dto.request.UpdateNewsReq;
 import com.example.everyminute.news.entity.News;
 import com.example.everyminute.news.repository.NewsRepository;
 import com.example.everyminute.school.entity.School;
@@ -42,6 +43,13 @@ public class NewsService {
         // 양방향 연관관계 해제 후 News 삭제
         news.getSchool().removeNews(news);
         news.remove();
+    }
+
+    @Transactional
+    public void updateNewsByAdmin(User user, Long newsId, UpdateNewsReq updateNewsReq) {
+        checkAdminRole(user);
+        News news = newsRepository.findByNewsIdAndIsEnable(newsId, true).orElseThrow(() -> new BaseException(BaseResponseCode.NEWS_NOT_FOUND));
+        news.update(updateNewsReq.getTitle(), updateNewsReq.getContents());
     }
 
     private static void checkAdminRole(User user) {

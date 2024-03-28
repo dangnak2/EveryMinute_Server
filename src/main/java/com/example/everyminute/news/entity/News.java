@@ -35,14 +35,6 @@ public class News extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @Builder
-//    public News(String title, String contents, School school, User user) {
-//        this.title = title;
-//        this.contents = contents;
-//        this.school = school;
-//        this.user = user;
-//    }
-
     @Builder
     public News(@NonNull String title, String contents, School school, User user) {
         this.title = title;
@@ -62,5 +54,10 @@ public class News extends BaseEntity {
 
     public void remove() {
         this.setIsEnable(false);
+    }
+
+    public void update(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
     }
 }
