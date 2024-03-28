@@ -43,7 +43,7 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public static User toEntity(JoinReq joinReq) {
+    public static User of(JoinReq joinReq) {
         return User.builder()
                 .name(joinReq.getName())
                 .email(joinReq.getEmail())
