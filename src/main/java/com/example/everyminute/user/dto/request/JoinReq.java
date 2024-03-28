@@ -6,13 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JoinUserReq {
+public class JoinReq {
 
     @Schema(type = "String", description = "성명", example = "홍길동", required = true)
     @NotBlank(message = "U0007")

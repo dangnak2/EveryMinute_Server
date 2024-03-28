@@ -1,7 +1,7 @@
 package com.example.everyminute.user.entity;
 
 import com.example.everyminute.global.entity.BaseEntity;
-import com.example.everyminute.user.dto.request.JoinUserReq;
+import com.example.everyminute.user.dto.request.JoinReq;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -42,12 +42,12 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public static User toEntity(JoinUserReq joinUserReq) {
+    public static User toEntity(JoinReq joinReq) {
         return User.builder()
-                .name(joinUserReq.getName())
-                .email(joinUserReq.getEmail())
-                .password(joinUserReq.getPassword())
-                .role(Role.getRoleByName(joinUserReq.getRole()))
+                .name(joinReq.getName())
+                .email(joinReq.getEmail())
+                .password(joinReq.getPassword())
+                .role(Role.getRoleByName(joinReq.getRole()))
                 .build();
     }
 }
