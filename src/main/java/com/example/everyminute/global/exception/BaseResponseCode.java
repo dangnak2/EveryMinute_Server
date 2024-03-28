@@ -27,7 +27,8 @@ public enum BaseResponseCode {
 
     // user
     USER_NOT_FOUND("U0001", HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
-    ROLE_NOT_FOUND("U0002", HttpStatus.NOT_FOUND, "역할을 찾을 수 없습니다.");
+    ROLE_NOT_FOUND("U0002", HttpStatus.NOT_FOUND, "역할을 찾을 수 없습니다."),
+    USER_ALREADY_JOIN("U0003", HttpStatus.NOT_FOUND, "이미 존재하는 이메일입니다.");
 
     public final String code;
     public final HttpStatus status;
