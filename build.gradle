@@ -28,7 +28,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.6.5'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Swagger3 gradle
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation("io.swagger:swagger-annotations:1.5.21")
+	implementation("io.swagger:swagger-models:1.5.21")
 }
 
 tasks.named('test') {
