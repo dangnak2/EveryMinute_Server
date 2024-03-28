@@ -1,31 +1,27 @@
-package com.example.everyminute.news.entity;
+package com.example.everyminute.subscribe.entity;
 
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.school.entity.School;
+import com.example.everyminute.user.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class News extends BaseEntity {
+public class Subscribe extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long newsId;
-
-    @NonNull
-    @Size(max = 70)
-    private String title;
-
-    @Column(columnDefinition="TEXT")
-    private String contents;
+    private Long subscribeId;
 
     @ManyToOne
-    @JoinColumn(name = "school_Id")
+    @JoinColumn(name = "user_Id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id")
     private School school;
 }
