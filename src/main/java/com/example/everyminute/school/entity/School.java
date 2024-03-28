@@ -46,4 +46,8 @@ public class School extends BaseEntity {
                 .region(registerSchoolReq.getRegion())
                 .build();
     }
+
+    public void addNews(News news) {
+        this.newsList.add(news);
+    }
 }

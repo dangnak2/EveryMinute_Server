@@ -34,7 +34,13 @@ public enum BaseResponseCode {
     // school : SUCCESS 코드와 중복으로 인해 C000X로 지정함
     NOT_EMPTY_SCHOOL_NAME("C0001", HttpStatus.BAD_REQUEST, "학교명을 입력해주세요,"),
     NOT_EMPTY_SCHOOL_REGION("C0002", HttpStatus.BAD_REQUEST, "학교 자역을 입력해주세요,"),
-    ALREADY_REGISTERED_SCHOOL("C0003", HttpStatus.BAD_REQUEST, "이미 등록된 학교입니다.");
+    ALREADY_REGISTERED_SCHOOL("C0003", HttpStatus.BAD_REQUEST, "이미 등록된 학교입니다."),
+    SCHOOL_NOT_FOUNT("C0004", HttpStatus.NOT_FOUND, "존재하지 않는 학교입니다."),
+
+    // news
+    INVALID_NEWS_TITLE("N0001", HttpStatus.BAD_REQUEST, "이미 존재하는 소식 제목입니다."),
+    NOT_EMPTY_NEWS_TITLE("N0002", HttpStatus.BAD_REQUEST, "소식 제목을 입력해주세요."),
+    NOT_EMPTY_NEWS_CONTENT("N0003", HttpStatus.BAD_REQUEST, "소식 내용을 입력해주세요.");
 
     public final String code;
     public final HttpStatus status;

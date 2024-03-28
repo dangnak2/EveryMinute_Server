@@ -51,4 +51,8 @@ public class User extends BaseEntity {
                 .role(Role.getRoleByName(joinReq.getRole()))
                 .build();
     }
+
+    public boolean checkRole(Role role) {
+        return this.role == role;
+    }
 }
