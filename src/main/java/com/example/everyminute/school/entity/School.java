@@ -2,7 +2,9 @@ package com.example.everyminute.school.entity;
 
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.news.entity.News;
+import com.example.everyminute.school.dto.request.RegisterSchoolReq;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +33,17 @@ public class School extends BaseEntity {
 
     @OneToMany(mappedBy = "school")
     private List<News> newsList = new ArrayList<News>();
+
+    @Builder
+    public School(String name, String region) {
+        this.name = name;
+        this.region = region;
+    }
+
+    public static School of(RegisterSchoolReq registerSchoolReq) {
+        return School.builder()
+                .name(registerSchoolReq.getSchoolName())
+                .region(registerSchoolReq.getRegion())
+                .build();
+    }
 }

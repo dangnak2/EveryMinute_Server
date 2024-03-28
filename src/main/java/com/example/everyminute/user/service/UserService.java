@@ -27,7 +27,7 @@ public class UserService {
     public void join(JoinReq joinReq) {
         if(userRepository.existsByEmailAndIsEnable(joinReq.getEmail(), true)) throw new BaseException(BaseResponseCode.USER_ALREADY_JOIN);
         joinReq.setPassword(passwordEncoder.encode(joinReq.getPassword()));
-        userRepository.save(User.toEntity(joinReq));
+        userRepository.save(User.of(joinReq));
     }
 
     // 로그인
