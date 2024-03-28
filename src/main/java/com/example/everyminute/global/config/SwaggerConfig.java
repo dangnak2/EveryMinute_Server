@@ -31,62 +31,30 @@ public class SwaggerConfig {
     private static final String API_NAME = "EVERY_MINUTE_API";
     private static final String API_VERSION = "0.0.1";
     private static final String API_DESCRIPTION = "EVERY_MINUTE_API_명세서";
-    private static final String PACKAGE = "com.example.everyminute";
 
-
-    //    @Bean
-//    public Docket api(TypeResolver typeResolver){
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .alternateTypeRules(
-//                        AlternateTypeRules.newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(CustomPage.class))
-//                )
-//                .additionalModels(
-//                        typeResolver.resolve(ResponseCustom.class)
-//                )
-//                .directModelSubstitute(LocalDateTime.class, String.class)
-//                .directModelSubstitute(LocalDate.class, String.class)
-//                .directModelSubstitute(LocalTime.class, String.class)
-//                .directModelSubstitute(ZonedDateTime.class, String.class)
-//                .apiInfo(apiInfo())
-//                .securityContexts(Arrays.asList(securityContext()))
-//                .securitySchemes(Arrays.asList(apiKey()))
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
-//
-//    public ApiInfo apiInfo() {
-//        return new ApiInfoBuilder()
-//                .title(API_NAME)
-//                .version(API_VERSION)
-//                .description(API_DESCRIPTION)
-//                .build();
-//    }
-//
-//    private ApiKey apiKey() {return new ApiKey("Bearer", "Authorization", "header");}
-//
-//    private SecurityContext securityContext() {
-//        return SecurityContext.builder().securityReferences(defaultAuth()).build();
-//    }
-//
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Arrays.asList(new SecurityReference("Bearer", authorizationScopes));
-//    }
     @Bean
-    public Docket restAPI() {
+    public Docket api(TypeResolver typeResolver) {
         return new Docket(DocumentationType.SWAGGER_2)
+                .alternateTypeRules(
+                        AlternateTypeRules.newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(CustomPage.class))
+                )
+                .additionalModels(
+                        typeResolver.resolve(ResponseCustom.class)
+                )
+                .directModelSubstitute(LocalDateTime.class, String.class)
+                .directModelSubstitute(LocalDate.class, String.class)
+                .directModelSubstitute(LocalTime.class, String.class)
+                .directModelSubstitute(ZonedDateTime.class, String.class)
                 .apiInfo(apiInfo())
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(PACKAGE))
+                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
 
-    private ApiInfo apiInfo() {
+    public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(API_NAME)
                 .version(API_VERSION)
@@ -94,5 +62,18 @@ public class SwaggerConfig {
                 .build();
     }
 
+    private ApiKey apiKey() {
+        return new ApiKey("Bearer", "Authorization", "header");
+    }
 
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("Bearer", authorizationScopes));
+    }
 }

@@ -1,15 +1,38 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		maven { url 'https://maven.aliyun.com/repository/google/' }
+		maven { url 'https://maven.aliyun.com/repository/public/' }
+		maven { url 'https://maven.aliyun.com/repository/spring/' }
+		maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+		maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
+
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.14.RELEASE")
+	}
+}
+
 plugins {
+//	id 'java'
+//	id 'org.springframework.boot' version '3.2.4'
+//	id 'io.spring.dependency-management' version '1.1.4'
 	id 'java'
-	id 'org.springframework.boot' version '3.2.4'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.springframework.boot' version '2.7.14'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.example'
+group = 'jpabook '
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
 
-java {
-	sourceCompatibility = '17'
-}
+//group = 'com.example'
+//version = '0.0.1-SNAPSHOT'
+//
+//java {
+//	sourceCompatibility = '17'
+//}
 
 configurations {
 	compileOnly {

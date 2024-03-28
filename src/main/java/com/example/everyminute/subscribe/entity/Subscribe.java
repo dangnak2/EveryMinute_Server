@@ -3,10 +3,11 @@ package com.example.everyminute.subscribe.entity;
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.user.entity.User;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
