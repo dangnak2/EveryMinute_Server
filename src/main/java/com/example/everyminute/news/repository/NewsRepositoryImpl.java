@@ -26,6 +26,7 @@ public class NewsRepositoryImpl implements NewsCustom{
         List<News> schoolNews = jpaQueryFactory.selectFrom(news)
                 .where(news.school.eq(school)
                         .and(news.isEnable.eq(true)))
+                .orderBy(news.createdAt.desc())
                 .fetch();
 
         List<SchoolNewsRes> res = schoolNews.stream()
