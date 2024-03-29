@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
+public interface SubscribeRepository extends JpaRepository<Subscribe, Long>, SubscribeCustom {
 
     Optional<Subscribe> findByUserAndSchoolAndIsEnable(User user, School school, Boolean isEnable);
+
+    void findByUserAndIsEnable(User user, boolean b);
 }
