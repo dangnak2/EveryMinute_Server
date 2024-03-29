@@ -4,10 +4,14 @@ import com.example.everyminute.global.resolver.Account;
 import com.example.everyminute.global.response.ResponseCustom;
 import com.example.everyminute.news.dto.request.PostNewsReq;
 import com.example.everyminute.news.dto.request.UpdateNewsReq;
+import com.example.everyminute.news.dto.response.SchoolNewsRes;
 import com.example.everyminute.news.service.NewsService;
 import com.example.everyminute.user.entity.User;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "학교 소식 API")
@@ -49,5 +53,14 @@ public class NewsController {
     {
         newsService.updateNewsByAdmin(user, newsId, updateNewsReq);
         return ResponseCustom.OK();
+    }
+
+    // 학교 페이지별 소식
+    @GetMapping("/{schoolId}")
+    public ResponseCustom<Page<SchoolNewsRes>> getSchoolNews(
+            @PathVariable Long schoolId,
+            @PageableDefault(size = 20) Pageable pageable)
+    {
+        return ResponseCustom.OK(newsService.getSchoolNews(schoolId, pageable));
     }
 }
