@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, Long> {
+public interface NewsRepository extends JpaRepository<News, Long>, NewsCustom {
 
     Boolean existsByTitleAndIsEnable(String title, Boolean isEnable);
 

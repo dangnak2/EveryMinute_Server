@@ -4,6 +4,7 @@ import com.example.everyminute.global.exception.BaseException;
 import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.news.dto.request.PostNewsReq;
 import com.example.everyminute.news.dto.request.UpdateNewsReq;
+import com.example.everyminute.news.dto.response.SchoolNewsRes;
 import com.example.everyminute.news.entity.News;
 import com.example.everyminute.news.repository.NewsRepository;
 import com.example.everyminute.school.entity.School;
@@ -11,6 +12,8 @@ import com.example.everyminute.school.repository.SchoolRepository;
 import com.example.everyminute.user.entity.Role;
 import com.example.everyminute.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,5 +57,10 @@ public class NewsService {
 
     private static void checkAdminRole(User user) {
         if (!user.checkRole(Role.ADMIN)) throw new BaseException(BaseResponseCode.NO_AUTHENTICATION);
+    }
+
+    public Page<SchoolNewsRes> getSchoolNews(Long schoolId, Pageable pageable) {
+        School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
+        return newsRepository.getSchoolNews(school, pageable);
     }
 }
