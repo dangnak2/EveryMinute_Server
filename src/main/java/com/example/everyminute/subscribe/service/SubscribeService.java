@@ -24,4 +24,11 @@ public class SubscribeService {
         School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
         subscribeRepository.save(Subscribe.of(user, school));
     }
+
+    @Transactional
+    public void cancel(User user, Long schoolId) {
+        School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
+        Subscribe subscribe = subscribeRepository.findByUserAndSchoolAndIsEnable(user, school, true).orElseThrow(() -> new BaseException(BaseResponseCode.SUBSCRIBE_NOT_FOUND));
+        subscribe.cancel();
+    }
 }

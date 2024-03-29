@@ -6,10 +6,7 @@ import com.example.everyminute.subscribe.service.SubscribeService;
 import com.example.everyminute.user.entity.User;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "구독 API")
 @RestController
@@ -21,11 +18,21 @@ public class SubscribeController {
 
     // 학교 구독
     @PostMapping("/{schoolId}")
-    public ResponseCustom subscribeSchool(
+    public ResponseCustom subscribe(
             @Account User user,
             @PathVariable Long schoolId)
     {
         subscribeService.subscribeSchool(user, schoolId);
+        return ResponseCustom.OK();
+    }
+
+    // 학교 구독 취소
+    @DeleteMapping("/{schoolId}")
+    public ResponseCustom cancel(
+            @Account User user,
+            @PathVariable Long schoolId)
+    {
+        subscribeService.cancel(user, schoolId);
         return ResponseCustom.OK();
     }
 }

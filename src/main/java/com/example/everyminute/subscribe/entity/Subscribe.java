@@ -39,4 +39,8 @@ public class Subscribe extends BaseEntity {
                 .school(school)
                 .build();
     }
+
+    public void cancel() {
+        this.setIsEnable(false);
+    }
 }
