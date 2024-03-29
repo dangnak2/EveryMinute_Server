@@ -4,6 +4,7 @@ import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.user.entity.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,17 @@ public class Subscribe extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;
+
+    @Builder
+    public Subscribe(User user, School school) {
+        this.user = user;
+        this.school = school;
+    }
+
+    public static Subscribe of(User user, School school) {
+        return Subscribe.builder()
+                .user(user)
+                .school(school)
+                .build();
+    }
 }
