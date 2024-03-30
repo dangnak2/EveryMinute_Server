@@ -36,7 +36,8 @@ public class UserController {
     @Operation(summary = "로그인", description = "로그인을 한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001)로그인 성공"),
-            @ApiResponse(responseCode = "409", description = "(U0003) 존재하지 않는 이메일입니다. \n(U0004) 패스워드가 일치하지 않습니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "409", description = "(U0003) 존재하지 않는 이메일입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class))),
+            @ApiResponse(responseCode = "409", description = "(U0004) 패스워드가 일치하지 않습니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("/login")
     public ResponseCustom<TokenDto> login(@RequestBody LoginReq loginReq) {

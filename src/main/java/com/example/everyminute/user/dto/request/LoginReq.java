@@ -11,12 +11,12 @@ import javax.validation.constraints.Pattern;
 public class LoginReq {
 
     @Schema(type = "String", description = "이메일", example = "1234@email.com", required = true)
-    @Email(message = "U0002")
-    @NotBlank(message = "U0004")
+    @Email(message = "U0005")
+    @NotBlank(message = "U0006")
     private String email;
 
     @Schema(type = "String", description = "비밀번호", example = "qwer1234!", required = true)
-    @Pattern(message = "U0003", regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$")
-    @NotBlank(message = "U0005")
+    @Pattern(message = "U0007", regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$")
+    @NotBlank(message = "U0003")
     private String password;
 }

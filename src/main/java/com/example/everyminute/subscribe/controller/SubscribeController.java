@@ -7,6 +7,7 @@ import com.example.everyminute.subscribe.service.SubscribeService;
 import com.example.everyminute.user.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,7 +35,7 @@ public class SubscribeController {
     @PostMapping("/{schoolId}")
     public ResponseCustom subscribe(
             @Account User user,
-            @PathVariable Long schoolId) {
+            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId) {
         subscribeService.subscribeSchool(user, schoolId);
         return ResponseCustom.OK();
     }
@@ -49,7 +50,7 @@ public class SubscribeController {
     @DeleteMapping("/{schoolId}")
     public ResponseCustom cancel(
             @Account User user,
-            @PathVariable Long schoolId) {
+            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId) {
         subscribeService.cancel(user, schoolId);
         return ResponseCustom.OK();
     }
