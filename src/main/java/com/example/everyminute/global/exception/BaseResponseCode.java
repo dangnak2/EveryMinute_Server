@@ -28,8 +28,13 @@ public enum BaseResponseCode {
     // user
     USER_NOT_FOUND("U0001", HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
     ROLE_NOT_FOUND("U0002", HttpStatus.NOT_FOUND, "역할을 찾을 수 없습니다."),
-    USER_ALREADY_JOIN("U0003", HttpStatus.NOT_FOUND, "이미 존재하는 이메일입니다."),
+    USER_ALREADY_JOIN("U0003", HttpStatus.BAD_REQUEST, "비밀번호를 입력해주세요,"),
     INVALID_PASSWORD("U0004", HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    INVALID_EMAIL_FORMAT("U0005", HttpStatus.BAD_REQUEST, "이메일 형식을 확인해주세요."),
+    NOT_EMPTY_EMAIL("U0006", HttpStatus.BAD_REQUEST, "이메일을 입력해주세요."),
+    INVALID_PASSWORD_FORMAT("U0007", HttpStatus.BAD_REQUEST, "비밀번호 형식을 확인해주세요."),
+    NOT_EMPTY_NAME("U0008", HttpStatus.BAD_REQUEST, "성명을 입력해주세요."),
+
 
     // school : SUCCESS 코드와 중복으로 인해 C000X로 지정함
     NOT_EMPTY_SCHOOL_NAME("C0001", HttpStatus.BAD_REQUEST, "학교명을 입력해주세요,"),

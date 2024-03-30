@@ -5,6 +5,7 @@ import com.example.everyminute.global.CustomPage;
 import com.example.everyminute.global.response.ResponseCustom;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -17,8 +18,6 @@ import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -26,7 +25,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-@EnableSwagger2
+@Configuration
 public class SwaggerConfig {
     private static final String API_NAME = "EVERY_MINUTE_API";
     private static final String API_VERSION = "0.0.1";
