@@ -44,7 +44,8 @@ public enum BaseResponseCode {
     NEWS_NOT_FOUND("N0004", HttpStatus.NOT_FOUND, "존재하지 않는 소식입니다."),
 
     // subscribe : SUCCESS, USER 코드와 중복으로 인해 B000X로 지정함
-    SUBSCRIBE_NOT_FOUND("B0001", HttpStatus.NOT_FOUND, "존재하지 않는 구독 내역입니다.");
+    SUBSCRIBE_NOT_FOUND("B0001", HttpStatus.NOT_FOUND, "존재하지 않는 구독 내역입니다."),
+    ALREADY_SUBSCRIBE_SCHOOL("B0002", HttpStatus.BAD_REQUEST, "이미 구독한 학교입니다.");
 
     public final String code;
     public final HttpStatus status;

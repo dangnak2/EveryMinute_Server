@@ -13,5 +13,5 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Long>, Sub
 
     Optional<Subscribe> findByUserAndSchoolAndIsEnable(User user, School school, Boolean isEnable);
 
-    void findByUserAndIsEnable(User user, boolean b);
+    Boolean existsByUserAndSchoolAndIsEnable(User user, School school, Boolean isEnable);
 }
