@@ -3,6 +3,7 @@ package com.example.everyminute.school.entity;
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.news.entity.News;
 import com.example.everyminute.school.dto.request.RegisterSchoolReq;
+import com.example.everyminute.subscribe.entity.Subscribe;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class School extends BaseEntity {
 
     @OneToMany(mappedBy = "school")
     private List<News> newsList = new ArrayList<News>();
+
+    @OneToMany(mappedBy = "school")
+    private List<Subscribe> subscribeList = new ArrayList<>();
 
     @Builder
     public School(String name, String region) {
