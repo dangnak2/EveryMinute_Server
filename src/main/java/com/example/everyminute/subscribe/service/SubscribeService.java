@@ -34,6 +34,7 @@ public class SubscribeService {
         School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
         Subscribe subscribe = subscribeRepository.findByUserAndSchoolAndIsEnable(user, school, true).orElseThrow(() -> new BaseException(BaseResponseCode.SUBSCRIBE_NOT_FOUND));
         subscribe.cancel();
+        user.cancelSubscribe(subscribe);
     }
 
     public Page<GetSubscriptionsRes> getSubscriptions(User user, Pageable pageable) {

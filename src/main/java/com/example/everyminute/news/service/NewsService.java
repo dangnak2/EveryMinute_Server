@@ -71,7 +71,7 @@ public class NewsService {
 
     // 유저가 구독한 학교 페이지 소식 모음
     public Page<SchoolNewsRes> getSchoolNews(User user, Pageable pageable) {
-        List<School> schools = user.getSubscribeList().stream().map(Subscribe::getSchool).collect(Collectors.toList());
+        List<School> schools = user.getSubscribeList().stream().filter(s -> s.getIsEnable().equals(true)).map(Subscribe::getSchool).collect(Collectors.toList());
         return newsRepository.getSchoolNews(schools, pageable);
     }
 }

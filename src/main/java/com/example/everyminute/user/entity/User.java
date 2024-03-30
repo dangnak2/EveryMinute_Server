@@ -65,4 +65,8 @@ public class User extends BaseEntity {
     public void addSubscribe(Subscribe subscribe) {
         this.subscribeList.add(subscribe);
     }
+
+    public void cancelSubscribe(Subscribe subscribe) {
+        this.subscribeList.remove(subscribe);
+    }
 }
