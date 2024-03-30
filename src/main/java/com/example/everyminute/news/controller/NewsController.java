@@ -63,4 +63,17 @@ public class NewsController {
     {
         return ResponseCustom.OK(newsService.getSchoolNews(schoolId, pageable));
     }
+
+    /*
+    - 학생이 구독중인 학교 뉴스피드
+    - 구독 시점부터 최신순으로 노출됨
+    - 구독을 취소해도 기존 뉴스피드에 노출된 소식은 유지
+     */
+    @GetMapping("")
+    public ResponseCustom<Page<SchoolNewsRes>> getSchoolNews(
+            @Account User user,
+            @PageableDefault(size = 20) Pageable pageable)
+    {
+        return ResponseCustom.OK(newsService.getSchoolNews(user, pageable));
+    }
 }

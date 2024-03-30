@@ -9,6 +9,7 @@ import com.example.everyminute.news.entity.News;
 import com.example.everyminute.news.repository.NewsRepository;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.school.repository.SchoolRepository;
+import com.example.everyminute.subscribe.entity.Subscribe;
 import com.example.everyminute.user.entity.Role;
 import com.example.everyminute.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,8 +63,15 @@ public class NewsService {
         if (!user.checkRole(Role.ADMIN)) throw new BaseException(BaseResponseCode.NO_AUTHENTICATION);
     }
 
+    // 학교 페이지 소식 모음
     public Page<SchoolNewsRes> getSchoolNews(Long schoolId, Pageable pageable) {
         School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
         return newsRepository.getSchoolNews(school, pageable);
+    }
+
+    // 유저가 구독한 학교 페이지 소식 모음
+    public Page<SchoolNewsRes> getSchoolNews(User user, Pageable pageable) {
+        List<School> schools = user.getSubscribeList().stream().filter(s -> s.getIsEnable().equals(true)).map(Subscribe::getSchool).collect(Collectors.toList());
+        return newsRepository.getSchoolNews(schools, pageable);
     }
 }
