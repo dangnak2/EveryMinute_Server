@@ -1,6 +1,7 @@
 package com.example.everyminute.user.entity;
 
 import com.example.everyminute.global.entity.BaseEntity;
+import com.example.everyminute.subscribe.entity.Subscribe;
 import com.example.everyminute.user.dto.request.JoinReq;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +38,9 @@ public class User extends BaseEntity {
     @Size(max = 255)
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Subscribe> subscribeList = new ArrayList<>();
+
     @Builder
     public User(String name, Role role, String email, String password) {
         this.name = name;
@@ -54,5 +60,9 @@ public class User extends BaseEntity {
 
     public boolean checkRole(Role role) {
         return this.role == role;
+    }
+
+    public void addSubscribe(Subscribe subscribe) {
+        this.subscribeList.add(subscribe);
     }
 }

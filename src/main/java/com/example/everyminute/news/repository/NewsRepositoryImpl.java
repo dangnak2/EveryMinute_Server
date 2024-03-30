@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,28 @@ public class NewsRepositoryImpl implements NewsCustom{
                 .fetch();
 
         List<SchoolNewsRes> res = schoolNews.stream()
+                .map(SchoolNewsRes::toDto).collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), res.size());
+        return new PageImpl<>(res.subList(start, end), pageable, res.size());
+    }
+
+    @Override
+    public Page<SchoolNewsRes> getSchoolNews(List<School> schools, Pageable pageable) {
+           List<News> subscribeNews =new ArrayList<>();
+
+        for (School school : schools) {
+            subscribeNews.addAll(
+            jpaQueryFactory.selectFrom(news)
+                    .where(news.school.eq(school)
+                            .and(news.isEnable.eq(true)))
+                    .fetch());
+        }
+
+        subscribeNews.sort(Comparator.comparing(News::getCreatedAt).reversed());
+
+        List<SchoolNewsRes> res = subscribeNews.stream()
                 .map(SchoolNewsRes::toDto).collect(Collectors.toList());
 
         int start = (int) pageable.getOffset();

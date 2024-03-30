@@ -22,10 +22,11 @@ public class SubscribeService {
     private final SubscribeRepository subscribeRepository;
     private final SchoolRepository schoolRepository;
 
+    // todo 구독 중복 예외처리
     @Transactional
     public void subscribeSchool(User user, Long schoolId) {
         School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
-        subscribeRepository.save(Subscribe.of(user, school));
+        user.addSubscribe(subscribeRepository.save(Subscribe.of(user, school)));
     }
 
     @Transactional
