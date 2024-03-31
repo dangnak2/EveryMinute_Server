@@ -2,6 +2,7 @@ package com.example.everyminute.news.service;
 
 import com.example.everyminute.global.exception.BaseException;
 import com.example.everyminute.global.exception.BaseResponseCode;
+import com.example.everyminute.global.utils.RedisUtil;
 import com.example.everyminute.news.dto.request.PostNewsReq;
 import com.example.everyminute.news.dto.request.UpdateNewsReq;
 import com.example.everyminute.news.dto.response.SchoolNewsRes;
@@ -9,7 +10,6 @@ import com.example.everyminute.news.entity.News;
 import com.example.everyminute.news.repository.NewsRepository;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.school.repository.SchoolRepository;
-import com.example.everyminute.subscribe.entity.Subscribe;
 import com.example.everyminute.user.entity.Role;
 import com.example.everyminute.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -28,6 +25,7 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
     private final SchoolRepository schoolRepository;
+    private final RedisUtil redisUtil;
 
     @Transactional
     public void postNewsByAdmin(User user, Long schoolId, PostNewsReq postNewsReq) {
@@ -39,7 +37,11 @@ public class NewsService {
             throw new BaseException(BaseResponseCode.INVALID_NEWS_TITLE);
 
         // 소식 저장 후 학교 엔티티 양방향 연관관계 저장
-        school.addNews(newsRepository.save(News.of(postNewsReq, school, user)));
+        News news = newsRepository.save(News.of(postNewsReq, school, user));
+        school.addNews(news);
+
+        // 뉴스 발행 후 피드 DB 업데이트
+        redisUtil.updateNewsFeed(school.getSubscribeList(), news.getNewsId());
     }
 
     @Transactional
@@ -69,9 +71,9 @@ public class NewsService {
         return newsRepository.getSchoolNews(school, pageable);
     }
 
-    // 유저가 구독한 학교 페이지 소식 모음
-    public Page<SchoolNewsRes> getSchoolNews(User user, Pageable pageable) {
-        List<School> schools = user.getSubscribeList().stream().filter(s -> s.getIsEnable().equals(true)).map(Subscribe::getSchool).collect(Collectors.toList());
-        return newsRepository.getSchoolNews(schools, pageable);
+    // 유저별 뉴스피드 조회
+    public Page<SchoolNewsRes> getNewsFeed(User user, Pageable pageable) {
+        return newsRepository.getNewsFeed(redisUtil.getNewsListByUserId(user.getUserId()), pageable);
     }
+
 }

@@ -1,15 +1,15 @@
 package com.example.everyminute.global.utils;
 
 import com.example.everyminute.global.Constants;
+import com.example.everyminute.subscribe.entity.Subscribe;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -28,9 +28,19 @@ public class RedisUtil {
     }
 
     @Transactional
-    public void setValue(Long key, List<Long> value) {
+    public void setNewsFeed(Long key, List<Long> value) {
         for (Long l : value) {
-            redisTemplate.opsForList().leftPush(Constants.REDIS.FEED_KEY+key, l);
+            redisTemplate.opsForSet().add(Constants.REDIS.FEED_KEY+key, l);
+        }
+    }
+
+    public Set<Object> getNewsListByUserId(Long key) {
+        return redisTemplate.opsForSet().members(Constants.REDIS.FEED_KEY + key);
+    }
+
+    public void updateNewsFeed(List<Subscribe> subscribeList, Long value) {
+        for (Subscribe subscribe : subscribeList) {
+            redisTemplate.opsForSet().add(Constants.REDIS.FEED_KEY+subscribe.getUser().getUserId(), value);
         }
     }
 

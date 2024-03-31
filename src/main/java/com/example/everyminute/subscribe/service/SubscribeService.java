@@ -34,7 +34,7 @@ public class SubscribeService {
         if(subscribeRepository.existsByUserAndSchoolAndIsEnable(user, school, true)) throw new BaseException(BaseResponseCode.ALREADY_SUBSCRIBE_SCHOOL);
         List<Long> newsIdList = school.getNewsList().stream().map(News::getNewsId).collect(Collectors.toList());
         // 유저별 뉴스피드 목록 redis 저장
-        redisUtil.setValue(user.getUserId(), newsIdList);
+        redisUtil.setNewsFeed(user.getUserId(), newsIdList);
         user.addSubscribe(subscribeRepository.save(Subscribe.of(user, school)));
     }
 
@@ -42,8 +42,9 @@ public class SubscribeService {
     public void cancel(User user, Long schoolId) {
         School school = schoolRepository.findBySchoolIdAndIsEnable(schoolId, true).orElseThrow(() -> new BaseException(BaseResponseCode.SCHOOL_NOT_FOUNT));
         Subscribe subscribe = subscribeRepository.findByUserAndSchoolAndIsEnable(user, school, true).orElseThrow(() -> new BaseException(BaseResponseCode.SUBSCRIBE_NOT_FOUND));
-        subscribe.cancel();
         user.cancelSubscribe(subscribe);
+        school.cancelSubscribe(subscribe);
+        subscribeRepository.delete(subscribe);
     }
 
     public Page<GetSubscriptionsRes> getSubscriptions(User user, Pageable pageable) {

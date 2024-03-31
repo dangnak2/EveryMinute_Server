@@ -58,4 +58,8 @@ public class School extends BaseEntity {
     public void removeNews(News news) {
         this.newsList.remove(news);
     }
+
+    public void cancelSubscribe(Subscribe subscribe) {
+        this.subscribeList.remove(subscribe);
+    }
 }

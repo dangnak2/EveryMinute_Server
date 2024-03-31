@@ -100,10 +100,10 @@ public class NewsController {
             @ApiResponse(responseCode = "200", description = "(S0001) 조회 성공"),
     })
     @GetMapping("")
-    public ResponseCustom<Page<SchoolNewsRes>> getSchoolNews(
+    public ResponseCustom<Page<SchoolNewsRes>> getNewsFeed(
             @Account User user,
             @PageableDefault(size = 20) Pageable pageable)
     {
-        return ResponseCustom.OK(newsService.getSchoolNews(user, pageable));
+        return ResponseCustom.OK(newsService.getNewsFeed(user, pageable));
     }
 }
