@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.example.everyminute.school.dto.TestSchoolDto.setUpSchool;
+import static com.example.everyminute.subscribe.dto.TestSubscribeDto.setUpSubscribe;
 import static com.example.everyminute.user.dto.TestUserDto.setUpUser;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -75,7 +76,22 @@ class SubscribeServiceTest {
     }
 
     @Test
+    @DisplayName("[성공] 구독 취소")
     void cancel() {
+        // given
+        User user = setUpUser(1L, Role.STUDENT, "test");
+        School school = setUpSchool(7L, "명지대학교", "서울");
+        Subscribe subscribe = setUpSubscribe(user, school);
+
+        // when
+        doReturn(Optional.of(school)).when(schoolRepository).findBySchoolIdAndIsEnable(school.getSchoolId(), true);
+        doReturn(Optional.of(subscribe)).when(subscribeRepository).findByUserAndSchoolAndIsEnable(user, school, true);
+        subscribeService.cancel(user, 7L);
+
+        // then
+        verify(schoolRepository, times(1)).findBySchoolIdAndIsEnable(any(Long.class), any(Boolean.class));
+        verify(subscribeRepository, times(1)).findByUserAndSchoolAndIsEnable(any(User.class), any(School.class), any(Boolean.class));
+        verify(subscribeRepository, times(1)).delete(any(Subscribe.class));
     }
 
     @Test
