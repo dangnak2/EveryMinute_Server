@@ -78,4 +78,21 @@ public class UserServiceTest {
         });
         assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.USER_NOT_FOUND);
     }
+
+    @Test
+    @DisplayName("[성공] 회원가입")
+    void join() {
+        // given
+        User user = setUpUser(1L, Role.ADMIN, passwordEncoder.encode(PASSWORD));
+        JoinReq req = setUpJoinReq("test@email.com", "test");
+
+        // when
+        when(userRepository.save(any(User.class))).then(AdditionalAnswers.returnsFirstArg());
+        userService.join(req);
+
+        // verify - because of void method
+        verify(userRepository, times(1)).existsByEmailAndIsEnable(any(String.class), any(Boolean.class));
+        verify(passwordEncoder, times(2)).encode(any(String.class));
+        verify(userRepository, times(1)).save(any(User.class));
+    }
 }
