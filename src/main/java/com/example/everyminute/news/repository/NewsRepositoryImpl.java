@@ -10,11 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.example.everyminute.news.entity.QNews.news;
 
@@ -41,20 +39,18 @@ public class NewsRepositoryImpl implements NewsCustom{
     }
 
     @Override
-    public Page<SchoolNewsRes> getSchoolNews(List<School> schools, Pageable pageable) {
-           List<News> subscribeNews =new ArrayList<>();
+    public Page<SchoolNewsRes> getNewsFeed(Set<Object> list, Pageable pageable) {
 
-        for (School school : schools) {
-            subscribeNews.addAll(
-            jpaQueryFactory.selectFrom(news)
-                    .where(news.school.eq(school)
+        List<News> feed = list.stream().map(m -> {
+            return jpaQueryFactory.selectFrom(news)
+                    .where(news.newsId.eq(Long.valueOf(m.toString()))
                             .and(news.isEnable.eq(true)))
-                    .fetch());
-        }
+                    .fetchOne();
+        }).collect(Collectors.toList());
 
-        subscribeNews.sort(Comparator.comparing(News::getCreatedAt).reversed());
+        feed.sort(Comparator.comparing(News::getCreatedAt).reversed());
 
-        List<SchoolNewsRes> res = subscribeNews.stream()
+        List<SchoolNewsRes> res = feed.stream()
                 .map(SchoolNewsRes::toDto).collect(Collectors.toList());
 
         int start = (int) pageable.getOffset();
