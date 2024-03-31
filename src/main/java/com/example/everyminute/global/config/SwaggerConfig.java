@@ -3,6 +3,7 @@ package com.example.everyminute.global.config;
 
 import com.example.everyminute.global.CustomPage;
 import com.example.everyminute.global.response.ResponseCustom;
+import com.example.everyminute.user.entity.User;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,11 +45,13 @@ public class SwaggerConfig {
                 .directModelSubstitute(LocalDate.class, String.class)
                 .directModelSubstitute(LocalTime.class, String.class)
                 .directModelSubstitute(ZonedDateTime.class, String.class)
+                .ignoredParameterTypes(User.class)
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.example.everyminute"))
                 .paths(PathSelectors.any())
                 .build();
     }

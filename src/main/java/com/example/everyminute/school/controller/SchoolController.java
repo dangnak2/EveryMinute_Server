@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Api(tags = "학교 API")
 @RestController
 @RequiredArgsConstructor
@@ -28,12 +30,12 @@ public class SchoolController {
     @Operation(summary = "학교 생성", description = "학교 페이지를 생성한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 학교 생성 성공"),
-            @ApiResponse(responseCode = "409", description = "(C0003) 이미 등록된 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(C0003) 이미 등록된 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("")
     public ResponseCustom registerSchoolByAdmin(
             @Account User user,
-            @RequestBody RegisterSchoolReq registerSchoolReq)
+            @RequestBody @Valid RegisterSchoolReq registerSchoolReq)
     {
         schoolService.registerSchoolByAdmin(user, registerSchoolReq);
         return ResponseCustom.OK();

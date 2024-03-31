@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(tags = "학교 소식 API")
 @RestController
 @RequiredArgsConstructor
@@ -32,14 +34,14 @@ public class NewsController {
     @Operation(summary = "소식 등록", description = "관리자가 학교 소식을 등록한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 소식 등록 성공"),
-            @ApiResponse(responseCode = "409", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class))),
-            @ApiResponse(responseCode = "409", description = "(N0001) 이미 존재하는 소식 제목입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class))),
+            @ApiResponse(responseCode = "400", description = "(N0001) 이미 존재하는 소식 제목입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("/{schoolId}")
     public ResponseCustom postNewsByAdmin(
             @Account User user,
             @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId,
-            @RequestBody PostNewsReq postNewsReq)
+            @RequestBody @Valid PostNewsReq postNewsReq)
     {
         newsService.postNewsByAdmin(user, schoolId, postNewsReq);
         return ResponseCustom.OK();
@@ -49,7 +51,7 @@ public class NewsController {
     @Operation(summary = "소식 삭제", description = "관리자가 학교 소식을 삭제한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 소식 삭제 성공"),
-            @ApiResponse(responseCode = "409", description = "(N0001) 존재하지 않는 소식입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(N0001) 존재하지 않는 소식입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @DeleteMapping("/{newsId}")
     public ResponseCustom removeNewsByAdmin(
@@ -64,13 +66,14 @@ public class NewsController {
     @Operation(summary = "소식 수정", description = "관리자가 학교 소식을 수정한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 소식 수정 성공"),
-            @ApiResponse(responseCode = "409", description = "(N0001) 존재하지 않는 소식입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(N0001) 존재하지 않는 소식입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class))),
+            @ApiResponse(responseCode = "400", description = "(N0002) 소식 제목을 입력해주세요.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PatchMapping("/{newsId}")
     public ResponseCustom updateNewsByAdmin(
            @Account User user,
            @Parameter(description = "(Long) 소식 Id", example = "1") @PathVariable Long newsId,
-           @RequestBody UpdateNewsReq updateNewsReq
+           @RequestBody @Valid UpdateNewsReq updateNewsReq
     )
     {
         newsService.updateNewsByAdmin(user, newsId, updateNewsReq);
@@ -81,6 +84,7 @@ public class NewsController {
     @Operation(summary = "학교 페이지별 소식 조회", description = "학교 페이지별로 소식을 조회한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 소식 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @GetMapping("/{schoolId}")
     public ResponseCustom<Page<SchoolNewsRes>> getSchoolNews(
