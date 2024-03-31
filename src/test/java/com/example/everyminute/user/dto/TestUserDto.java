@@ -17,6 +17,15 @@ public class TestUserDto {
                 .build();
     }
 
+    public static JoinReq setUpJoinReq(String email, String pw){
+        return JoinReq.builder()
+                .email(email)
+                .password(pw)
+                .name("홍길동")
+                .role("관리자")
+                .build();
+    }
+
     public static User setUpUser(Long userId, Role role, String pw){
         return User.builder()
                 .userId(userId)

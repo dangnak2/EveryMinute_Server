@@ -64,4 +64,18 @@ public class UserServiceTest {
         verify(jwtUtil, times(1)).createToken(any(Long.class), any(Role.class));
         verify(passwordEncoder, times(1)).encode(any(String.class));
     }
+
+    @Test
+    @DisplayName("[실패] 로그인")
+    void loginFail(){
+        // given
+        LoginReq req = setUpLoginReq("test1@email.com", "test");
+        // when
+        doThrow(new BaseException(BaseResponseCode.USER_NOT_FOUND)).when(userRepository).findByEmailAndIsEnable(req.getEmail(), true);
+        // then
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            userService.login(req);
+        });
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.USER_NOT_FOUND);
+    }
 }
