@@ -25,7 +25,7 @@ public class UserService {
     // 회원가입
     @Transactional
     public void join(JoinReq joinReq) {
-        if(userRepository.existsByEmailAndIsEnable(joinReq.getEmail(), true)) throw new BaseException(BaseResponseCode.USER_ALREADY_JOIN);
+        if(userRepository.existsByEmailAndIsEnable(joinReq.getEmail(), true)) throw new BaseException(BaseResponseCode.ALREADY_USED_EMAIL);
         joinReq.setPassword(passwordEncoder.encode(joinReq.getPassword()));
         userRepository.save(User.of(joinReq));
     }

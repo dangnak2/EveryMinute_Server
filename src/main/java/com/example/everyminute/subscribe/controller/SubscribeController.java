@@ -30,12 +30,13 @@ public class SubscribeController {
     @Operation(summary = "학교 구독", description = "학교를 페이지를 구독한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 학교 구독 성공"),
-            @ApiResponse(responseCode = "409", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("/{schoolId}")
     public ResponseCustom subscribe(
             @Account User user,
-            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId) {
+            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId)
+    {
         subscribeService.subscribeSchool(user, schoolId);
         return ResponseCustom.OK();
     }
@@ -44,13 +45,13 @@ public class SubscribeController {
     @Operation(summary = "학교 구독 취소", description = "학교 페이지 구독을 취소한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "(S0001) 학교 구독 취소 성공"),
-            @ApiResponse(responseCode = "409", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class))),
-            @ApiResponse(responseCode = "409", description = "(B0001) 존재하지 않는 구독 내역입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
+            @ApiResponse(responseCode = "404", description = "(C0004) 존재하지 않는 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @DeleteMapping("/{schoolId}")
     public ResponseCustom cancel(
             @Account User user,
-            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId) {
+            @Parameter(description = "(Long) 학교 Id", example = "1") @PathVariable Long schoolId)
+    {
         subscribeService.cancel(user, schoolId);
         return ResponseCustom.OK();
     }
