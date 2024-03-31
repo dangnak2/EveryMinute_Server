@@ -28,7 +28,8 @@ public class Subscribe extends BaseEntity {
     private School school;
 
     @Builder
-    public Subscribe(User user, School school) {
+    public Subscribe(Long subscribeId, User user, School school) {
+        this.subscribeId = subscribeId;
         this.user = user;
         this.school = school;
     }
