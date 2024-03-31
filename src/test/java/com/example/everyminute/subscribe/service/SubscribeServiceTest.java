@@ -95,6 +95,23 @@ class SubscribeServiceTest {
     }
 
     @Test
+    @DisplayName("[실패] 구독 취소 - 구독 내역이 존재하지 않는 경우")
+    void cancelFail() {
+        // given
+        User user = setUpUser(1L, Role.STUDENT, "test");
+        School school = setUpSchool(7L, "명지대학교", "서울");
+
+        // when
+        doReturn(Optional.of(school)).when(schoolRepository).findBySchoolIdAndIsEnable(school.getSchoolId(), true);
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            subscribeService.cancel(user, school.getSchoolId());
+        });
+
+        // then
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.SUBSCRIBE_NOT_FOUND);
+    }
+
+    @Test
     void getSubscriptions() {
     }
 }
