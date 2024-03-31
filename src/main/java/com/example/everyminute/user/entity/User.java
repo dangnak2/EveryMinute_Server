@@ -42,7 +42,8 @@ public class User extends BaseEntity {
     private List<Subscribe> subscribeList = new ArrayList<>();
 
     @Builder
-    public User(String name, Role role, String email, String password) {
+    public User(Long userId, String name, Role role, String email, String password) {
+        this.userId = userId;
         this.name = name;
         this.role = role;
         this.email = email;

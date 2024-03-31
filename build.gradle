@@ -72,7 +72,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
 
