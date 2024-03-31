@@ -95,4 +95,21 @@ public class UserServiceTest {
         verify(passwordEncoder, times(2)).encode(any(String.class));
         verify(userRepository, times(1)).save(any(User.class));
     }
+
+    @Test
+    @DisplayName("[실패] 회원가입 - 존재하는 이메일이 있을경우")
+    void joinFail() {
+        // given
+        User user = setUpUser(1L, Role.ADMIN, passwordEncoder.encode(PASSWORD));
+        JoinReq req = setUpJoinReq("test@email.com", "test");
+
+        // when
+        doReturn(true).when(userRepository).existsByEmailAndIsEnable(req.getEmail(), true);
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            userService.join(req);
+        });
+
+        // then
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.ALREADY_USED_EMAIL);
+    }
 }
