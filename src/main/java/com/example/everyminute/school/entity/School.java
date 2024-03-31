@@ -39,7 +39,8 @@ public class School extends BaseEntity {
     private List<Subscribe> subscribeList = new ArrayList<>();
 
     @Builder
-    public School(String name, String region) {
+    public School(Long schoolId, String name, String region) {
+        this.schoolId = schoolId;
         this.name = name;
         this.region = region;
     }

@@ -1,10 +1,12 @@
 package com.example.everyminute.school.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Builder
 public class RegisterSchoolReq {
 
     @Schema(type = "String", description = "학교명", example = "명지대학교", required = true)
