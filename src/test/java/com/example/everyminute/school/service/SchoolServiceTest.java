@@ -1,5 +1,7 @@
 package com.example.everyminute.school.service;
 
+import com.example.everyminute.global.exception.BaseException;
+import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.school.dto.request.RegisterSchoolReq;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.school.repository.SchoolRepository;
@@ -17,6 +19,8 @@ import static com.example.everyminute.school.dto.TestSchoolDto.setUpRegisterScho
 import static com.example.everyminute.school.dto.TestSchoolDto.setUpSchool;
 import static com.example.everyminute.user.dto.TestUserDto.PASSWORD;
 import static com.example.everyminute.user.dto.TestUserDto.setUpUser;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -44,5 +48,22 @@ public class SchoolServiceTest {
         // then
         verify(schoolRepository, times(1)).existsByNameAndRegionAndIsEnable(any(String.class), any(String.class), any(Boolean.class));
         verify(schoolRepository, times(1)).save(any(School.class));
+    }
+
+    @Test
+    @DisplayName("[실패] 관리자에 의한 학교 등록 - 관리자가 아닌 경우")
+    void registerSchoolByAdminFail() {
+        // given
+        User user = setUpUser(1L, Role.STUDENT, "test");
+        School school = setUpSchool(1L, "명지대학교", "서울");
+        RegisterSchoolReq req = setUpRegisterSchoolReq();
+
+        // when
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            schoolService.registerSchoolByAdmin(user, req);
+        });
+
+        // then
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.NO_AUTHENTICATION);
     }
 }
