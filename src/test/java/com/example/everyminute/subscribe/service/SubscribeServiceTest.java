@@ -1,5 +1,7 @@
 package com.example.everyminute.subscribe.service;
 
+import com.example.everyminute.global.exception.BaseException;
+import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.global.utils.RedisUtil;
 
 import com.example.everyminute.school.dto.request.RegisterSchoolReq;
@@ -21,6 +23,8 @@ import java.util.Optional;
 
 import static com.example.everyminute.school.dto.TestSchoolDto.setUpSchool;
 import static com.example.everyminute.user.dto.TestUserDto.setUpUser;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -52,6 +56,22 @@ class SubscribeServiceTest {
         verify(subscribeRepository, times(1)).existsByUserAndSchoolAndIsEnable(any(User.class), any(School.class), any(Boolean.class));
         verify(redisUtil, times(1)).setNewsFeed(any(Long.class), anyList());
         verify(subscribeRepository, times(1)).save(any(Subscribe.class));
+    }
+
+    @Test
+    @DisplayName("[실패] 학교 구독 - 학교가 존재하지 않는 경우")
+    void subscribeSchoolFail() {
+        // given
+        User user = setUpUser(1L, Role.STUDENT, "test");
+        School school = setUpSchool(7L, "명지대학교", "서울");
+
+        // when
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            subscribeService.subscribeSchool(user, school.getSchoolId());
+        });
+
+        // then
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.SCHOOL_NOT_FOUNT);
     }
 
     @Test
