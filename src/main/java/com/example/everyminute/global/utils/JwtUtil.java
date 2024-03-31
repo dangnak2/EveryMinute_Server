@@ -80,7 +80,7 @@ public class JwtUtil {
     }
 
     // redis 내 token 가져오기
-    public String getTokenInRedis(String token){
+    public Object getTokenInRedis(String token){
         return redisUtil.getValue(token);
     }
 

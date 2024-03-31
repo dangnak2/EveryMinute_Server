@@ -13,6 +13,9 @@ public class Constants {
         public static final String LOGOUT = "logout";
         public static final String SIGNOUT = "signout";
     }
+    public static class REDIS{
+        public static final String FEED_KEY = "userId::";
+    }
 
 
 }

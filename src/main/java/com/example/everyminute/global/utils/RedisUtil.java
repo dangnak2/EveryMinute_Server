@@ -1,11 +1,15 @@
 package com.example.everyminute.global.utils;
 
+import com.example.everyminute.global.Constants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -13,7 +17,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisUtil {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
+
     public void setValue(String key, String value, Duration time) {
         redisTemplate.opsForValue().set(key, value, time);
     }
@@ -22,7 +27,14 @@ public class RedisUtil {
         redisTemplate.opsForValue().set(key, value, exp, time);
     }
 
-    public String getValue(String key){
+    @Transactional
+    public void setValue(Long key, List<Long> value) {
+        for (Long l : value) {
+            redisTemplate.opsForList().leftPush(Constants.REDIS.FEED_KEY+key, l);
+        }
+    }
+
+    public Object getValue(String key){
         return redisTemplate.opsForValue().get(key);
     }
 
