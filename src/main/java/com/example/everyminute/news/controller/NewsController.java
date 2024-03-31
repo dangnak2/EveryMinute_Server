@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Api(tags = "학교 소식 API")
+@Api(tags = "뉴스피드 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/news")
