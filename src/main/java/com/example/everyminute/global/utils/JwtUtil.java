@@ -3,6 +3,7 @@ package com.example.everyminute.global.utils;
 import com.example.everyminute.global.exception.BaseException;
 import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.user.dto.TokenDto;
+import com.example.everyminute.user.dto.response.LoginRes;
 import com.example.everyminute.user.entity.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 
 import static com.example.everyminute.global.Constants.JWT.BEARER_PREFIX;
@@ -31,11 +33,13 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public TokenDto createToken(Long userId, Role role){
+    public LoginRes createToken(Long userId, Role role){
         long now = new Date().getTime();
         String accessToken = createAccessToken(userId, now).compact();
         String refreshToken = createToken(now, REFRESH_TOKEN_EXPIRE_TIME).compact();
-        return TokenDto.toDto(BEARER_PREFIX + accessToken, BEARER_PREFIX + refreshToken, role);
+        // todo: refreshToken redis 관리 설정
+        // redisUtil.setValue(userIdx.toString(), refreshToken, Duration.ofMillis(REFRESH_TOKEN_EXPIRE_TIME));
+        return LoginRes.toDto(BEARER_PREFIX + accessToken, role);
     }
 
     // create Token 생성
