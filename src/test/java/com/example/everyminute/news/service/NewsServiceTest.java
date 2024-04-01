@@ -82,13 +82,13 @@ class NewsServiceTest {
     }
 
     @Test
+    @DisplayName("[성공] 관리자에 의한 소식 삭제")
     void removeNewsByAdmin() {
         // given
         User user = setUpUser(14L, Role.ADMIN, "test");
         School school = setUpSchool(7L, "명지대학교", "서울");
         PostNewsReq req = setUpPostNewsReq("명지대학교 소식 1", "명지대학교 소식 1 입니다.");
         News news = setUpNews(req.getTitle(), req.getContents(), user, school);
-
 
         // when
         doReturn(Optional.of(school)).when(schoolRepository).findBySchoolIdAndIsEnable(school.getSchoolId(), true);
@@ -97,6 +97,22 @@ class NewsServiceTest {
 
         // verify
         verify(newsRepository, times(1)).findByNewsIdAndIsEnable(any(Long.class), any(Boolean.class));
+    }
+
+    @Test
+    @DisplayName("[실패] 관리자에 의한 소식 삭제 - 소식이 존재하지 않을 경우")
+    void removeNewsByAdminFail() {
+        // when
+        User user = setUpUser(14L, Role.ADMIN, "test");
+        Long newsId = 1L;
+
+        // then
+        BaseException exception = assertThrows(BaseException.class, () -> {
+            newsService.removeNewsByAdmin(user, newsId);
+        });
+
+        // then
+        assertThat(exception.getBaseResponseCode()).isEqualTo(BaseResponseCode.NEWS_NOT_FOUND);
     }
 
     @Test
