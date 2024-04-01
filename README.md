@@ -174,14 +174,13 @@ src
 ```
 <br>
 </details>
-<br><br>
-
 
 ## DB 
-![image](https://github.com/dangnak2/EveryMinute_Server/assets/80161984/1162722d-ffac-4f80-8f98-9ba90d2048d8)
-<br><br>
+<details>
+<summary>Schema</summary>
 
-<br>
+![image](https://github.com/dangnak2/EveryMinute_Server/assets/80161984/1162722d-ffac-4f80-8f98-9ba90d2048d8)
+</details>
 
 ## Develop Convention
 **Commit**
