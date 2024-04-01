@@ -56,7 +56,7 @@ class NewsServiceTest {
         when(newsRepository.save(any(News.class))).thenReturn(news);
         newsService.postNewsByAdmin(user, school.getSchoolId(), req);
 
-        // then
+        // verify
         verify(schoolRepository, times(1)).findBySchoolIdAndIsEnable(any(Long.class), any(Boolean.class));
         verify(newsRepository, times(1)).existsByTitleAndIsEnable(any(String.class), any(Boolean.class));
         verify(newsRepository, times(1)).save(any(News.class));
@@ -83,6 +83,20 @@ class NewsServiceTest {
 
     @Test
     void removeNewsByAdmin() {
+        // given
+        User user = setUpUser(14L, Role.ADMIN, "test");
+        School school = setUpSchool(7L, "명지대학교", "서울");
+        PostNewsReq req = setUpPostNewsReq("명지대학교 소식 1", "명지대학교 소식 1 입니다.");
+        News news = setUpNews(req.getTitle(), req.getContents(), user, school);
+
+
+        // when
+        doReturn(Optional.of(school)).when(schoolRepository).findBySchoolIdAndIsEnable(school.getSchoolId(), true);
+        when(newsRepository.save(any(News.class))).thenReturn(news);
+        newsService.removeNewsByAdmin(user, news.getNewsId());
+
+        // verify
+        verify(newsRepository, times(1)).findByNewsIdAndIsEnable(any(Long.class), any(Boolean.class));
     }
 
     @Test
