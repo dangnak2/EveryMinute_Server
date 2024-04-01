@@ -1,11 +1,13 @@
 package com.example.everyminute.news.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
+@Builder
 public class PostNewsReq {
 
     @Schema(type = "String", description = "소식 제목", example = "명지대학교 공지 1", required = true)
