@@ -3,6 +3,7 @@ package com.example.everyminute.school.controller;
 import com.example.everyminute.global.resolver.Account;
 import com.example.everyminute.global.response.ResponseCustom;
 import com.example.everyminute.school.dto.request.RegisterSchoolReq;
+import com.example.everyminute.school.dto.response.RegisterSchoolRes;
 import com.example.everyminute.school.service.SchoolService;
 import com.example.everyminute.user.entity.User;
 import io.swagger.annotations.Api;
@@ -33,11 +34,10 @@ public class SchoolController {
             @ApiResponse(responseCode = "404", description = "(C0003) 이미 등록된 학교입니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("")
-    public ResponseCustom registerSchoolByAdmin(
+    public ResponseCustom<RegisterSchoolRes> registerSchoolByAdmin(
             @Account User user,
             @RequestBody @Valid RegisterSchoolReq registerSchoolReq)
     {
-        schoolService.registerSchoolByAdmin(user, registerSchoolReq);
-        return ResponseCustom.OK();
+        return ResponseCustom.OK(schoolService.registerSchoolByAdmin(user, registerSchoolReq));
     }
 }
