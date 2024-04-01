@@ -1,7 +1,7 @@
 package com.example.everyminute.user.controller;
 
 import com.example.everyminute.global.response.ResponseCustom;
-import com.example.everyminute.user.dto.TokenDto;
+import com.example.everyminute.user.dto.response.LoginRes;
 import com.example.everyminute.user.dto.request.JoinReq;
 import com.example.everyminute.user.dto.request.LoginReq;
 import com.example.everyminute.user.service.UserService;
@@ -43,7 +43,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "(U0004) 패스워드가 일치하지 않습니다.", content = @Content(schema = @Schema(implementation = ResponseCustom.class)))
     })
     @PostMapping("/login")
-    public ResponseCustom<TokenDto> login(@RequestBody @Valid LoginReq loginReq)
+    public ResponseCustom<LoginRes> login(@RequestBody @Valid LoginReq loginReq)
     {
         return ResponseCustom.OK(userService.login(loginReq));
     }

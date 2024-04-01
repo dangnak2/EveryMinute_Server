@@ -6,6 +6,7 @@ import com.example.everyminute.global.utils.JwtUtil;
 import com.example.everyminute.user.dto.TokenDto;
 import com.example.everyminute.user.dto.request.JoinReq;
 import com.example.everyminute.user.dto.request.LoginReq;
+import com.example.everyminute.user.dto.response.LoginRes;
 import com.example.everyminute.user.entity.User;
 import com.example.everyminute.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class UserService {
     }
 
     // 로그인
-    public TokenDto login(LoginReq loginReq) {
+    public LoginRes login(LoginReq loginReq) {
         User user = userRepository.findByEmailAndIsEnable(loginReq.getEmail(), true).orElseThrow(() -> new BaseException(BaseResponseCode.USER_NOT_FOUND));
         if(!passwordEncoder.matches(loginReq.getPassword(), user.getPassword())) throw new BaseException(BaseResponseCode.INVALID_PASSWORD);
         return jwtUtil.createToken(user.getUserId(), user.getRole());

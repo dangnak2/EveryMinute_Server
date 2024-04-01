@@ -6,6 +6,7 @@ import com.example.everyminute.global.utils.JwtUtil;
 import com.example.everyminute.user.dto.TokenDto;
 import com.example.everyminute.user.dto.request.JoinReq;
 import com.example.everyminute.user.dto.request.LoginReq;
+import com.example.everyminute.user.dto.response.LoginRes;
 import com.example.everyminute.user.entity.Role;
 import com.example.everyminute.user.entity.User;
 import com.example.everyminute.user.repository.UserRepository;
@@ -50,14 +51,13 @@ public class UserServiceTest {
         // when
         // stub 생성
         doReturn(Optional.of(user)).when(userRepository).findByEmailAndIsEnable(req.getEmail(), true);
-        when(jwtUtil.createToken(user.getUserId(), user.getRole())).thenReturn(TokenDto.toDto("accessToken", "refreshToken", user.getRole()));
-        TokenDto dto = userService.login(req);
+        when(jwtUtil.createToken(user.getUserId(), user.getRole())).thenReturn(LoginRes.toDto("accessToken",  user.getRole()));
+        LoginRes dto = userService.login(req);
 
         // then
         assertThat(req.getEmail()).isEqualTo(user.getEmail());
         assertThat(passwordEncoder.matches(req.getPassword(), user.getPassword())).isTrue();
         assertThat(dto.getAccessToken()).isEqualTo("accessToken");
-        assertThat(dto.getRefreshToken()).isEqualTo("refreshToken");
 
         // verify
         verify(userRepository, times(1)).findByEmailAndIsEnable(any(String.class), any(Boolean.class));
