@@ -58,7 +58,7 @@ public class NewsService {
     public void updateNewsByAdmin(User user, Long newsId, UpdateNewsReq updateNewsReq) {
         checkAdminRole(user);
         News news = newsRepository.findByNewsIdAndIsEnable(newsId, true).orElseThrow(() -> new BaseException(BaseResponseCode.NEWS_NOT_FOUND));
-        news.update(updateNewsReq.getTitle(), updateNewsReq.getContents());
+        news.update(updateNewsReq);
     }
 
     private static void checkAdminRole(User user) {

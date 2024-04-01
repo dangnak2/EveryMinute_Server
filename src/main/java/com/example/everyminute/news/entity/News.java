@@ -1,7 +1,9 @@
 package com.example.everyminute.news.entity;
 
+import com.example.everyminute.global.config.AwsS3ImageUrlUtil;
 import com.example.everyminute.global.entity.BaseEntity;
 import com.example.everyminute.news.dto.request.PostNewsReq;
+import com.example.everyminute.news.dto.request.UpdateNewsReq;
 import com.example.everyminute.school.entity.School;
 import com.example.everyminute.user.entity.User;
 import lombok.*;
@@ -9,6 +11,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -27,6 +30,9 @@ public class News extends BaseEntity {
     @Column(columnDefinition="TEXT")
     private String contents;
 
+    @Size(max = 255)
+    private String imgKey;
+
     @ManyToOne
     @JoinColumn(name = "school_Id")
     private School school;
@@ -36,10 +42,11 @@ public class News extends BaseEntity {
     private User user;
 
     @Builder
-    public News(Long newsId, @NonNull String title, String contents, School school, User user) {
+    public News(Long newsId, @NonNull String title, String contents, String imgKey, School school, User user) {
         this.newsId = newsId;
         this.title = title;
         this.contents = contents;
+        this.imgKey = imgKey;
         this.school = school;
         this.user = user;
     }
@@ -48,6 +55,7 @@ public class News extends BaseEntity {
         return News.builder()
                 .title(postNewsReq.getTitle())
                 .contents(postNewsReq.getContents())
+                .imgKey(postNewsReq.getImgKey())
                 .school(school)
                 .user(user)
                 .build();
@@ -57,8 +65,9 @@ public class News extends BaseEntity {
         this.setIsEnable(false);
     }
 
-    public void update(String title, String contents) {
-        this.title = title;
-        this.contents = contents;
+    public void update(UpdateNewsReq updateNewsReq) {
+        if (!Objects.equals(title, updateNewsReq.getTitle())) title = updateNewsReq.getTitle();
+        if (!Objects.equals(contents, updateNewsReq.getContents())) contents = updateNewsReq.getContents();
+        if (!Objects.equals(AwsS3ImageUrlUtil.toUrl(imgKey), updateNewsReq.getImgKey())) imgKey = updateNewsReq.getImgKey();
     }
 }

@@ -15,4 +15,7 @@ public class UpdateNewsReq {
     @Schema(type = "String", description = "수정 할 내용", example = "공지 1입니다.(수정됨)", required = true)
     @NotNull(message = "N0003")
     private String contents;
+
+    @Schema(type = "String", description = "소식 imgKey", example = "photo/newsImg.png", required = true)
+    private String imgKey;
 }

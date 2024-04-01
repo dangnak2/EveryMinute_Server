@@ -17,4 +17,8 @@ public class PostNewsReq {
     @Schema(type = "String", description = "소식 내용", example = "공지 1입니다.", required = true)
     @NotNull(message = "N0003")
     private String contents;
+
+    @Schema(type = "String", description = "소식 imgKey", example = "photo/newsImg.png", required = true)
+    private String imgKey;
+
 }
