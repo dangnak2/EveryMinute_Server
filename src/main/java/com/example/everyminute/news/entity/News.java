@@ -36,7 +36,8 @@ public class News extends BaseEntity {
     private User user;
 
     @Builder
-    public News(@NonNull String title, String contents, School school, User user) {
+    public News(Long newsId, @NonNull String title, String contents, School school, User user) {
+        this.newsId = newsId;
         this.title = title;
         this.contents = contents;
         this.school = school;
