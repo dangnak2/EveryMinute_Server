@@ -91,8 +91,7 @@ class NewsServiceTest {
         News news = setUpNews(req.getTitle(), req.getContents(), user, school);
 
         // when
-        doReturn(Optional.of(school)).when(schoolRepository).findBySchoolIdAndIsEnable(school.getSchoolId(), true);
-        when(newsRepository.save(any(News.class))).thenReturn(news);
+        doReturn(Optional.of(news)).when(newsRepository).findByNewsIdAndIsEnable(news.getNewsId(), true);
         newsService.removeNewsByAdmin(user, news.getNewsId());
 
         // verify
