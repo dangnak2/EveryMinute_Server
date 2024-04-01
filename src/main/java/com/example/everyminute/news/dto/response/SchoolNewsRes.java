@@ -1,5 +1,6 @@
 package com.example.everyminute.news.dto.response;
 
+import com.example.everyminute.global.config.AwsS3ImageUrlUtil;
 import com.example.everyminute.global.utils.DateTimeUtil;
 import com.example.everyminute.news.entity.News;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +19,8 @@ public class SchoolNewsRes {
     private String  writer;
     @Schema(type = "String", description = "작성일시", example = "2024-03-29 12:00")
     private String createAt;
+    @Schema(type = "String", description = "소식 imgUrl", example = "{endpoint}/photo/news.png")
+    private String imgUrl;
 
     public static SchoolNewsRes toDto(News news) {
         return SchoolNewsRes.builder()
@@ -25,6 +28,7 @@ public class SchoolNewsRes {
                 .contents(news.getContents())
                 .writer(news.getUser().getName())
                 .createAt(DateTimeUtil.dateTimeToString(news.getCreatedAt()))
+                .imgUrl(AwsS3ImageUrlUtil.toUrl(news.getImgKey()))
                 .build();
     }
 
