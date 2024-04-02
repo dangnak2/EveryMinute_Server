@@ -19,7 +19,7 @@ public class SchoolNewsRes {
     private String  writer;
     @Schema(type = "String", description = "작성일시", example = "2024-03-29 12:00")
     private String createAt;
-    @Schema(type = "String", description = "소식 imgUrl", example = "endpoint/photo/news.png")
+    @Schema(type = "String", description = "소식 imgUrl", example = "endpoint/photo/example.png")
     private String imgUrl;
 
     public static SchoolNewsRes toDto(News news) {

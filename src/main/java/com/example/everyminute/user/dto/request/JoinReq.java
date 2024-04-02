@@ -20,7 +20,7 @@ public class JoinReq {
     @NotBlank(message = "U0008")
     private String name;
 
-    @Schema(type = "String", description = "이메일", example = "1234@email.com", required = true)
+    @Schema(type = "String", description = "이메일", example = "student@email.com", required = true)
     @Email(message = "U0005")
     @NotBlank(message = "U0006")
     private String email;
