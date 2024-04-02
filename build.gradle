@@ -28,7 +28,7 @@ plugins {
 
 group = 'jpabook '
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "15"
+sourceCompatibility = "17"
 
 configurations {
 	compileOnly {
@@ -95,4 +95,4 @@ configurations {
 	}
 	querydsl.extendsFrom compileClasspath
 }
-targetCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_17
