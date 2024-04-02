@@ -61,7 +61,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title(API_NAME)
                 .version(API_VERSION)
-                .description(API_DESCRIPTION)
+                .description(getApiDescription(getErrorList()))
                 .build();
     }
 
@@ -91,5 +91,30 @@ public class SwaggerConfig {
             errorList.append("</tr>");
         }
         return errorList.toString();
+    }
+
+    public String getApiDescription(String errorList) {
+        String description = """
+                    Everyminute API 명세서입니다.<br>
+                    스웨거 한계로 인해 Response에 공통 response의 data에 대한 정의가 되어있습니다. <br>
+                    <details>
+                        <summary> ERROR LIST </summary>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ERROR CODE</th>
+                                <th>STATUS</th>
+                                <th>ERROR MESSAGE</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                """
+                + errorList
+                + """
+                                    </tbody>
+                                <table>
+                            </details>
+                            """;
+        return description;
     }
 }
