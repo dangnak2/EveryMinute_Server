@@ -2,6 +2,7 @@ package com.example.everyminute.global.config;
 
 
 import com.example.everyminute.global.CustomPage;
+import com.example.everyminute.global.exception.BaseResponseCode;
 import com.example.everyminute.global.response.ResponseCustom;
 import com.example.everyminute.user.entity.User;
 import com.fasterxml.classmate.TypeResolver;
@@ -77,5 +78,18 @@ public class SwaggerConfig {
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("Bearer", authorizationScopes));
+    }
+
+    private String getErrorList() {
+        StringBuilder errorList = new StringBuilder();
+        BaseResponseCode[] exceptionLists = BaseResponseCode.values();
+        for (BaseResponseCode exceptionList : exceptionLists) {
+            errorList.append("<tr>");
+            errorList.append("<td>").append(exceptionList.getCode()).append("</td>");
+            errorList.append("<td>").append(exceptionList.getStatus()).append("</td>");
+            errorList.append("<td>").append(exceptionList.getMessage()).append("</td>");
+            errorList.append("</tr>");
+        }
+        return errorList.toString();
     }
 }

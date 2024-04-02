@@ -11,10 +11,10 @@ import java.util.List;
 @Getter
 @Setter
 public class CustomPage {
-    @ApiModelProperty(value = "페이지 번호(0...N)")
+    @ApiModelProperty(value = "페이지 번호(0...N)", example = "1")
     private Integer page;
 
-    @ApiModelProperty(value = "페이지 크기")
+    @ApiModelProperty(value = "페이지 크기", example = "20")
     private Integer size;
 
     @ApiModelProperty(value = "정렬")
